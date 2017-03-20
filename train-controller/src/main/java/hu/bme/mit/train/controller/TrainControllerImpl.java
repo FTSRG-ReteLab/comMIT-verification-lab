@@ -9,12 +9,30 @@ public class TrainControllerImpl implements TrainController {
 	private int step = 0;
 	private int referenceSpeed = 0;
 	private int speedLimit = 0;
-	speedTimer timer;
+	private speedTimer timer;
 	
 	public TrainControllerImpl(){
 		timer = new speedTimer(this);
 		Thread t = new Thread(timer);
 		t.start();
+	}
+	
+static class speedTimer implements Runnable {
+		
+		TrainControllerImpl parent;
+		
+		speedTimer(TrainControllerImpl parent) {
+			this.parent = parent;
+		}
+		
+		public void run(){
+			while (true) {
+				parent.followSpeed();
+				try {
+					wait(1000);
+				} catch (InterruptedException e) {e.printStackTrace();}
+			}
+		}
 	}
 
 	@Override
@@ -55,22 +73,6 @@ public class TrainControllerImpl implements TrainController {
 		this.step = joystickPosition;		
 	}
 	
-	static class speedTimer implements Runnable {
-		
-		TrainControllerImpl parent;
-		
-		speedTimer(TrainControllerImpl p) {
-			this.parent = p;
-		}
-		
-		public void run(){
-			while (true) {
-				parent.followSpeed();
-				try {
-					wait(1000);
-				} catch (InterruptedException e) {e.printStackTrace();}
-			}
-		}
-	}
+	
 
 }
