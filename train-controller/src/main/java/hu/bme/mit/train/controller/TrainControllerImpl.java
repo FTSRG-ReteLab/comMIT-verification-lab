@@ -11,8 +11,9 @@ public class TrainControllerImpl implements TrainController
 	
 	public TrainControllerImpl()
 	{
-		ThreadClass t = new ThreadClass(this);
-		t.start();
+		ThreadClass threadclass = new ThreadClass(this);
+		Thread thread = new Thread(threadclass);
+		thread.start();
 	}
 	
 	@Override
@@ -88,11 +89,11 @@ public class TrainControllerImpl implements TrainController
 			}
 		}
 		
-		public void start ()
+		/*public void start()
 		{
 	         t = new Thread();
 	         t.start ();
-		}
+		}*/
 		
 	}
 
